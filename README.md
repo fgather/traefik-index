@@ -8,6 +8,8 @@ ENDPOINTURL = "http://mytraefik/api/providers"
 
 INDEXPAGETITLE = "Here are my traefik services: "
 
+## Further information
+
 Provided dockerfile is based on Microsoft Nanoserver and runs as a Windows Docker Container.
 
 Used technologies: nodejs, express
