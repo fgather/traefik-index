@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    h1 #{title}
+    p
+    each val in hosts
+        li
+            a(href="#{val}") #{val}
