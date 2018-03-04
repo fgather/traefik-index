@@ -4,7 +4,7 @@ var request = require('request');
 
 function extractHosts(providersJson) {
     try {
-        var frontends = providersJson.docker.frontends;
+        var frontends = JSON.parse(providersJson).docker.frontends;
 
         return Object.keys(frontends)
             .map(frontendKey => frontends[frontendKey])
@@ -13,6 +13,7 @@ function extractHosts(providersJson) {
             .filter(rule => rule.startsWith('Host:'))
             .map(rule => 'http://'+rule.replace('Host:',''));
     } catch (error) {
+        console.log(error);
         return [];
     }
 }
@@ -26,7 +27,12 @@ router.get('/', function (req, res, next) {
     request(traefikEndpoint, function (error, response, body) {
         console.log('error:', error);
         console.log('statusCode:', response && response.statusCode);
-        res.render('index', {title: title, hosts: extractHosts(response)});
+        console.log('portainer providers:', body);
+
+        var hosts = extractHosts(body);
+        hosts.sort();
+
+        res.render('index', {title: title, hosts: hosts});
     });
 });
 
