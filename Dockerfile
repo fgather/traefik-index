@@ -16,4 +16,4 @@ RUN powershell cd c:\\server ; npm install"
 
 EXPOSE 3000
 
-ENTRYPOINT powershell cd c:\\server ;npm start
+ENTRYPOINT powershell cd c:\\server; npm start
