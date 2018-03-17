@@ -8,6 +8,8 @@ ENDPOINTURL = "http://mytraefik/api/providers"
 
 INDEXPAGETITLE = "Here are my traefik services: "
 
+BLACKLIST = "ignoreThisHostBasedOnAJSRegexp,isACommaSeparatedList"
+
 ## Further information
 
 Provided dockerfile is based on Microsoft Nanoserver and runs as a Windows Docker Container.
