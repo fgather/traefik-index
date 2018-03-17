@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var request = require('request');
+let express = require('express');
+let router = express.Router();
+let request = require('request');
 
 function extractHosts(providersJson) {
     try {
-        var frontends = JSON.parse(providersJson).docker.frontends;
+        let frontends = JSON.parse(providersJson).docker.frontends;
 
         return Object.keys(frontends)
             .map(frontendKey => frontends[frontendKey])
@@ -19,17 +19,17 @@ function extractHosts(providersJson) {
 }
 
 router.get('/', function (req, res, next) {
-    var title = process.env.INDEXPAGETITLE;
+    let title = process.env.INDEXPAGETITLE;
     title = title ? title : 'Index';
 
-    var traefikEndpoint = process.env.ENDPOINTURL;
+    let traefikEndpoint = process.env.ENDPOINTURL;
 
     request(traefikEndpoint, function (error, response, body) {
         console.log('error:', error);
         console.log('statusCode:', response && response.statusCode);
         console.log('portainer providers:', body);
 
-        var hosts = extractHosts(body);
+        let hosts = extractHosts(body);
         hosts.sort();
 
         res.render('index', {title: title, hosts: hosts});
