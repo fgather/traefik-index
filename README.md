@@ -27,6 +27,6 @@ ENDPOINTCONFIGURATION = '
 
 ## Further information
 
-Traefik-Index docker container is based on the node:alpine base image or the Microsoft Nanoserver image respectively. 
+Traefik-Index docker container is based on the node:alpine base image or the Microsoft Nanoserver image, respectively. 
 
 Used technologies: nodejs, express
