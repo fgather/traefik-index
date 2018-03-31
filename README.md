@@ -12,6 +12,7 @@ BLACKLIST = "ignoreThisHostBasedOnAJSRegexp,isACommaSeparatedList"
 
 ## Further information
 
-Provided dockerfile is based on Microsoft Nanoserver and runs as a Windows Docker Container.
+Traefik-Index is based on the node:alpine base image. 
+Provided windows-dockerfile is based on Microsoft Nanoserver and runs as a Windows Docker Container. 
 
 Used technologies: nodejs, express
