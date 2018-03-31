@@ -3,6 +3,8 @@ extends layout
 block content
     h1 #{title}
     p
-    each val in hosts
-        li
-            a(href="http://#{val}") http://#{val}
+    each section in endPoints
+        h2 #{section.sectionTitle}
+        each val in section.hosts
+            li
+                a(href="http://#{val}") http://#{val}

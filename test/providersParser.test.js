@@ -6,9 +6,13 @@ generateFrontendJson = (ruleString) => {
     return {docker: {frontends: {1: {routes: [{rule: ruleString}]}}}}
 };
 
-describe('Indexpage', function () {
-    it('should show single host', function () {
+generateK8sFrontendJson = (ruleString) => {
+    return {kubernetes: {frontends: {1: {routes: [{rule: ruleString}]}}}}
+};
 
+
+describe('providersParser', function () {
+    it('should show single host', function () {
         let testJson = generateFrontendJson('Host:testhost');
         let hostList = extractHosts(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['testhost']);
@@ -18,7 +22,7 @@ describe('Indexpage', function () {
 
         let testJson = generateFrontendJson('Host:testhost,testhost2');
         let hostList = extractHosts(JSON.stringify(testJson), '');
-        expect(hostList).to.eql(['testhost','testhost2']);
+        expect(hostList).to.eql(['testhost', 'testhost2']);
     });
 
     it('should use the blacklist', function () {
@@ -27,6 +31,13 @@ describe('Indexpage', function () {
 
         let testJson = generateFrontendJson('Host:testhost,blacklisted');
         let hostList = extractHosts(JSON.stringify(testJson), blackList);
+        expect(hostList).to.eql(['testhost']);
+    });
+
+    it('should work with non-docker providers', function () {
+
+        let testJson = generateK8sFrontendJson('Host:testhost');
+        let hostList = extractHosts(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['testhost']);
     });
 });
