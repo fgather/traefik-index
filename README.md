@@ -1,14 +1,29 @@
 # Simple index page generator for Traefik
 
-Obtains the list of front-ends configured by the docker backend of the traefik reverse proxy. Then renders a list of hyperlinks for the "Host:" based rules.
+Obtains the list of front-ends configured by the various backends of the traefik reverse proxy. Then renders a list of hyperlinks for the "Host:" based rules.
 
 ## Configuration via environment variables:
 
-ENDPOINTURL = "http://mytraefik/api/providers"
+```
+ENDPOINTCONFIGURATION = '
+{
+   "title":"Here are my traefik services: ",
+   "endpoints":[
+      {
+         "sectionTitle":"main",
+         "url":"http://mytraefik/api/providers",
+         "blacklist":"ignoreThisHostBasedOnAJSRegexp,isACommaSeparatedList"
+      },
+      {
+         "sectionTitle":"sub section",
+         "url":"http://mytraefik2/api/providers",
+         "blacklist":""
+      }
+   ]
+}
+'
+```
 
-INDEXPAGETITLE = "Here are my traefik services: "
-
-BLACKLIST = "ignoreThisHostBasedOnAJSRegexp,isACommaSeparatedList"
 
 ## Further information
 
