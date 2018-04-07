@@ -15,12 +15,14 @@ extractHosts = (providersJson, blacklistString) => {
         .map(frontendKey => frontends[frontendKey])
         .map(frontend => frontend.routes));
 
-    let hostNames = flatten(routes
-        .map(route => route.rule)
-        .filter(rule => rule)
-        .filter(rule => rule.startsWith('Host:'))
-        .map(rule => rule.replace('Host:', ''))
-        .map(hostRuleString => hostRuleString.split(',')));
+    let rules = flatten(routes.map(route =>
+        Object.keys(route).map(routeKey => route[routeKey]).map(route => route.rule)));
+
+    let hostNames = flatten(
+        rules.filter(rule => rule)
+            .filter(rule => rule.startsWith('Host:'))
+            .map(rule => rule.replace('Host:', ''))
+            .map(hostRuleString => hostRuleString.split(',')));
 
     return hostNames
         .filter(hostName => !blacklistRegExps.find(blackListItem => blackListItem.test(hostName)))
