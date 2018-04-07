@@ -17,6 +17,7 @@ extractHosts = (providersJson, blacklistString) => {
 
     let hostNames = flatten(routes
         .map(route => route.rule)
+        .filter(rule => rule)
         .filter(rule => rule.startsWith('Host:'))
         .map(rule => rule.replace('Host:', ''))
         .map(hostRuleString => hostRuleString.split(',')));

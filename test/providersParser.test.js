@@ -51,4 +51,11 @@ describe('providersParser', function () {
         let hostList = extractHosts(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['testhost']);
     });
+
+    it('should not fail if rules are empty', function () {
+
+        let testJson = {kubernetes: {frontends: {1: {routes: [{}, {rule: 'Host:testhost'}]}}}};
+        let hostList = extractHosts(JSON.stringify(testJson), '');
+        expect(hostList).to.eql(['testhost']);
+    });
 });
