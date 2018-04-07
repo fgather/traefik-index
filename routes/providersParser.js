@@ -11,13 +11,17 @@ extractHosts = (providersJson, blacklistString) => {
 
     let blacklistRegExps = blacklist.map(regExString => new RegExp(regExString));
 
-    return flatten(Object.keys(frontends)
+    let routes = flatten(Object.keys(frontends)
         .map(frontendKey => frontends[frontendKey])
-        .map(frontend => frontend.routes)
-        .map(route => route[Object.keys(route)[0]].rule)
+        .map(frontend => frontend.routes));
+
+    let hostNames = flatten(routes
+        .map(route => route.rule)
         .filter(rule => rule.startsWith('Host:'))
         .map(rule => rule.replace('Host:', ''))
-        .map(hostRuleString => hostRuleString.split(',')))
+        .map(hostRuleString => hostRuleString.split(',')));
+
+    return hostNames
         .filter(hostName => !blacklistRegExps.find(blackListItem => blackListItem.test(hostName)))
 };
 

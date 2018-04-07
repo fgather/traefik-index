@@ -10,6 +10,10 @@ generateK8sFrontendJson = (ruleString) => {
     return {kubernetes: {frontends: {1: {routes: [{rule: ruleString}]}}}}
 };
 
+generateFrontendWithMultipleRulesJson = (ruleString) => {
+    return {kubernetes: {frontends: {1: {routes: [{rule: "path"}, {rule: ruleString}]}}}}
+};
+
 
 describe('providersParser', function () {
     it('should show single host', function () {
@@ -37,6 +41,13 @@ describe('providersParser', function () {
     it('should work with non-docker providers', function () {
 
         let testJson = generateK8sFrontendJson('Host:testhost');
+        let hostList = extractHosts(JSON.stringify(testJson), '');
+        expect(hostList).to.eql(['testhost']);
+    });
+
+    it('should work with multiple rules per frontend', function () {
+
+        let testJson = generateFrontendWithMultipleRulesJson('Host:testhost');
         let hostList = extractHosts(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['testhost']);
     });
