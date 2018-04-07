@@ -53,4 +53,10 @@ describe('providersParser', function () {
         let hostList = extractHosts(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['testhost']);
     });
+
+    it('hostnames should be unique', function () {
+        let testJson = {kubernetes: {frontends: {1: {routes: {'test': {rule: 'Host:testhost'}, 'test2': {rule: 'Host:testhost'}}}}}};
+        let hostList = extractHosts(JSON.stringify(testJson), '');
+        expect(hostList).to.eql(['testhost']);
+    });
 });

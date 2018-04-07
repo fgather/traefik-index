@@ -4,6 +4,18 @@ function flatten(arr) {
     }, []);
 }
 
+function unique(arr) {
+    let u = {}, a = [];
+    let i = 0, l = arr.length;
+    for (; i < l; ++i) {
+        if (!u.hasOwnProperty(arr[i])) {
+            a.push(arr[i]);
+            u[arr[i]] = 1;
+        }
+    }
+    return a;
+}
+
 extractHosts = (providersJson, blacklistString) => {
     let parsedJson = JSON.parse(providersJson);
     let frontends = Object.keys(parsedJson).map(frontendName => parsedJson[frontendName].frontends)[0];
@@ -24,8 +36,8 @@ extractHosts = (providersJson, blacklistString) => {
             .map(rule => rule.replace('Host:', ''))
             .map(hostRuleString => hostRuleString.split(',')));
 
-    return hostNames
-        .filter(hostName => !blacklistRegExps.find(blackListItem => blackListItem.test(hostName)))
+    return unique(hostNames
+        .filter(hostName => !blacklistRegExps.find(blackListItem => blackListItem.test(hostName))))
 };
 
 module.exports = extractHosts;
