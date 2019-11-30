@@ -16,28 +16,48 @@ function unique(arr) {
     return a;
 }
 
-extractHosts = (providersJson, blacklistString) => {
+function extractRules(providersJson) {
     let parsedJson = JSON.parse(providersJson);
     let frontends = Object.keys(parsedJson).map(frontendName => parsedJson[frontendName].frontends)[0];
-    let blacklist = blacklistString === '' ? [] : blacklistString.split(',');
-
-    let blacklistRegExps = blacklist.map(regExString => new RegExp(regExString));
-
     let routes = flatten(Object.keys(frontends)
         .map(frontendKey => frontends[frontendKey])
         .map(frontend => frontend.routes));
 
-    let rules = flatten(routes.map(route =>
+    return flatten(routes.map(route =>
         Object.keys(route).map(routeKey => route[routeKey]).map(route => route.rule)));
+}
 
-    let hostNames = flatten(
+function extractRulesFromTraefik2(routersJson) {
+    let parsedJson = JSON.parse(routersJson);
+    return parsedJson.map(route => route.rule);
+}
+
+function extractHostsFromRules(rules) {
+    return flatten(
         rules.filter(rule => rule)
             .filter(rule => rule.startsWith('Host:'))
             .map(rule => rule.replace('Host:', ''))
             .map(hostRuleString => hostRuleString.split(',')));
+}
+
+function applyBlacklist(hostNames, blacklistString) {
+    let blacklist = blacklistString === '' ? [] : blacklistString.split(',');
+    let blacklistRegExps = blacklist.map(regExString => new RegExp(regExString));
 
     return unique(hostNames
         .filter(hostName => !blacklistRegExps.find(blackListItem => blackListItem.test(hostName))))
+}
+
+exports.extractHostsAndApplyBlacklist = (providersJson, blacklistString) => {
+    let rules = extractRules(providersJson);
+
+    let hostNames = extractHostsFromRules(rules);
+    return applyBlacklist(hostNames, blacklistString);
 };
 
-module.exports = extractHosts;
+exports.extractHostsAndApplyBlacklistFromTraefik2 = (routersJson, blacklistString) => {
+    let rules = extractRulesFromTraefik2(routersJson);
+
+    let hostNames = extractHostsFromRules(rules);
+    return applyBlacklist(hostNames, blacklistString);
+};
