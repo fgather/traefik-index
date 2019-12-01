@@ -35,8 +35,8 @@ function extractRulesFromTraefik2(routersJson) {
 function extractHostsFromRules(rules) {
     return flatten(
         rules.filter(rule => rule)
-            .filter(rule => rule.startsWith('Host:'))
-            .map(rule => rule.replace('Host:', ''))
+            .filter(rule => rule.startsWith('Host'))
+            .map(rule => rule.replace(/Host:|Host\(`(\w+)`\)/, '$1'))
             .map(hostRuleString => hostRuleString.split(',')));
 }
 

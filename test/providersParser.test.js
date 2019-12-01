@@ -77,7 +77,7 @@ describe('providersParser', function () {
         let testJson = [{
             "entryPoints": ["web"],
             "service": "testService",
-            "rule": "Host:testhost",
+            "rule": "Host(`testhost`)",
             "status": "enabled",
             "using": ["web"],
             "name": "test@docker",
@@ -85,7 +85,7 @@ describe('providersParser', function () {
         }, {
             "entryPoints": ["web"],
             "service": "testService2",
-            "rule": "Host:testhost2",
+            "rule": "Host(`testhost2`)",
             "status": "enabled",
             "using": ["web"],
             "name": "test2@docker",
