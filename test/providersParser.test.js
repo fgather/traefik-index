@@ -85,7 +85,7 @@ describe('providersParser', function () {
         }, {
             "entryPoints": ["web"],
             "service": "testService2",
-            "rule": "Host(`testhost.localhost`)",
+            "rule": "Host(`testhost.localhost`) && PathPrefix(`/`)",
             "status": "enabled",
             "using": ["web"],
             "name": "test2@docker",

@@ -33,11 +33,13 @@ function extractRulesFromTraefik2(routersJson) {
 }
 
 function extractHostsFromRules(rules) {
+
     return flatten(
-        rules.filter(rule => rule)
+        flatten(rules.filter(rule => rule)
             .filter(rule => rule.startsWith('Host'))
-            .map(rule => rule.replace(/Host:|Host\(`(.+)`\)/, '$1'))
-            .map(hostRuleString => hostRuleString.split(',')));
+            .map(rule => rule.match(/Host:([A-Za-z0-9\-\.,]+)|Host\(`([A-Za-z0-9\-\.]+)`\)/).slice(1)))
+            .filter(rule => rule)
+        .map(hostRuleString => hostRuleString.split(',')));
 }
 
 function applyBlacklist(hostNames, blacklistString) {
