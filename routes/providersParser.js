@@ -37,9 +37,12 @@ function extractHostsFromRules(rules) {
     return flatten(
         flatten(rules.filter(rule => rule)
             .filter(rule => rule.startsWith('Host'))
-            .map(rule => rule.match(/Host:([A-Za-z0-9\-\.,]+)|Host\(`([A-Za-z0-9\-\.]+)`\)/).slice(1)))
+            .map(rule => rule.match(/Host:([A-Za-z0-9\-\.,]+)|Host\(`([A-Za-z0-9\-\.]+)`\)/))
+            .map(hostmatches => {
+                if (hostmatches) return hostmatches.slice(1);
+            }))
             .filter(rule => rule)
-        .map(hostRuleString => hostRuleString.split(',')));
+            .map(hostRuleString => hostRuleString.split(',')));
 }
 
 function applyBlacklist(hostNames, blacklistString) {

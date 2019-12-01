@@ -90,6 +90,14 @@ describe('providersParser', function () {
             "using": ["web"],
             "name": "test2@docker",
             "provider": "docker"
+        }, {
+            "entryPoints": ["web"],
+            "service": "testService2",
+            "rule": "Host(`*.novalidhost.localhost`) && PathPrefix(`/`)",
+            "status": "enabled",
+            "using": ["web"],
+            "name": "test2@docker",
+            "provider": "docker"
         }];
         let hostList = extractHostsAndApplyBlacklistFromTraefik2(JSON.stringify(testJson), '');
         expect(hostList).to.eql(['Testhost', 'testhost.localhost']);
