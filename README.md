@@ -21,7 +21,7 @@ ENDPOINTCONFIGURATION = '
       },
       {
          "sectionTitle":"sub section for traefik v2.0",
-         "apiUrl":"http://mytraefik-version2/api",
+         "apiUrl":"http://mytraefik-version2/api/",
          "blacklist":""
        }
    ]
