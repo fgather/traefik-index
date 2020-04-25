@@ -38,6 +38,13 @@ describe('providersParser', function () {
         expect(hostList).to.eql(['testhost']);
     });
 
+    it('ignores invalid hosts', function () {
+        let testJson = generateFrontendJson('Host:test_host,valid-host');
+        let hostList = extractHostsAndApplyBlacklist(JSON.stringify(testJson), '');
+
+        expect(hostList).to.eql([]);
+    });
+
     it('should work with non-docker providers', function () {
         let testJson = generateK8sFrontendJson('Host:testhost');
         let hostList = extractHostsAndApplyBlacklist(JSON.stringify(testJson), '');
