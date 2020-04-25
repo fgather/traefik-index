@@ -21,6 +21,8 @@ async function getEndpointResult(endPointConfiguration) {
 
     try {
         hosts = await getHostsForEndpoint(endPointConfiguration);
+        hosts = hosts.concat(getAdditionalHosts(endPointConfiguration.additionalHosts));
+        hosts = hosts.sort();
     } catch (e) {
         console.log(e);
         sectionTitle += ' ( could not obtain endpoint data )';
@@ -30,16 +32,24 @@ async function getEndpointResult(endPointConfiguration) {
 }
 
 async function getHostsForEndpoint(endPointConfiguration) {
+    let hosts = [];
     if (typeof endPointConfiguration.url !== 'undefined') {
         let result = await request(endPointConfiguration.url);
-        let hosts = extractHostsAndApplyBlacklist(result, endPointConfiguration.blacklist);
-        return hosts.sort();
-    } else {
+        hosts = extractHostsAndApplyBlacklist(result, endPointConfiguration.blacklist);
+    }
+    if (typeof endPointConfiguration.apiUrl !== 'undefined') {
         let routersUrl = url.resolve(endPointConfiguration.apiUrl, 'http/routers');
         let result = await request(routersUrl);
-        let hosts = extractHostsAndApplyBlacklistFromTraefik2(result, endPointConfiguration.blacklist);
-        return hosts.sort();
+        hosts = extractHostsAndApplyBlacklistFromTraefik2(result, endPointConfiguration.blacklist);
     }
+    return hosts;
+}
+
+function getAdditionalHosts(additionalHosts) {
+    if (typeof additionalHosts != 'undefined')
+        return additionalHosts;
+    else
+        return [];
 }
 
 module.exports = router;

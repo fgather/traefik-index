@@ -57,12 +57,12 @@ exports.extractHostsAndApplyBlacklist = (providersJson, blacklistString) => {
     let rules = extractRules(providersJson);
 
     let hostNames = extractHostsFromRules(rules);
-    return applyBlacklist(hostNames, blacklistString);
+    return applyBlacklist(hostNames, blacklistString).map(value => "http://" + value);
 };
 
 exports.extractHostsAndApplyBlacklistFromTraefik2 = (routersJson, blacklistString) => {
     let rules = extractRulesFromTraefik2(routersJson);
 
     let hostNames = extractHostsFromRules(rules);
-    return applyBlacklist(hostNames, blacklistString);
+    return applyBlacklist(hostNames, blacklistString).map(value => "http://" + value);
 };

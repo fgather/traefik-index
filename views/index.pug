@@ -7,4 +7,4 @@ block content
         h2 #{section.sectionTitle}
         each val in section.hosts
             li
-                a(href="http://" + val) http://#{val}
+                a(href=val) #{val}
