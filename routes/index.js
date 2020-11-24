@@ -38,7 +38,7 @@ async function getHostsForEndpoint(endPointConfiguration) {
         hosts = extractHostsAndApplyBlacklist(result, endPointConfiguration.blacklist);
     }
     if (typeof endPointConfiguration.apiUrl !== 'undefined') {
-        let routersUrl = url.resolve(endPointConfiguration.apiUrl, 'http/routers');
+        let routersUrl = url.resolve(endPointConfiguration.apiUrl, 'http/routers?search=&status=&per_page=10000&page=1');
         let result = await request(routersUrl);
         hosts = extractHostsAndApplyBlacklistFromTraefik2(result, endPointConfiguration.blacklist);
     }
