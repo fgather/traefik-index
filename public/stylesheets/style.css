@@ -4,5 +4,34 @@ body {
 }
 
 a {
-  color: #00B7FF;
+  color: #00b7ff;
+}
+
+ul {
+  margin: 0 !important;
+}
+
+li {
+  list-style: none;
+}
+
+.sectionToggle {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.emptySection {
+  color: gray;
+}
+
+.routeIcon {
+  height: 18px;
+  width: 18px;
+  min-width: 18px;
+}
+
+.route {
+  margin-left: 10px;
 }

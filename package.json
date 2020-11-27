@@ -10,6 +10,7 @@
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.9",
     "express": "^4.16.3",
+    "get-website-favicon": "^0.0.7",
     "morgan": "^1.9.0",
     "pug": "^2.0.3",
     "request": "^2.85.0",
