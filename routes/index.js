@@ -9,7 +9,7 @@ let url = require("url");
 var getFavicons = require("get-website-favicon");
 
 router.get("/", function (req, res, next) {
-  let configuration = exampleConfig;
+  let configuration = JSON.parse(process.env.ENDPOINTCONFIGURATION);
 
   Promise.all(
     configuration.endpoints.map((configuration) =>
