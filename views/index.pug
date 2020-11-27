@@ -1,10 +1,17 @@
 extends layout
 
 block content
-    h1 #{title}
-    p
-    each section in endPoints
-        h2 #{section.sectionTitle}
-        each val in section.hosts
-            li
-                a(href=val) #{val}
+  h1 #{title}
+  div(id="accordion")
+    each section, index in endPoints
+      - var expanded =  index === 0
+      div(class="card")
+        div(class="card-header" id="heading" + id)
+          a(class="sectionToggle" data-toggle="collapse" href="#section_"+index role="button" aria-expanded=expanded? "true" : "false" aria-controls="section_"+index) #{section.sectionTitle}
+        div(class=expanded ? "collapse show": "collapse" id="section_"+index aria-labelledby="heading"+id data-parent="#accordion")
+          div(class="card-body")  
+            ul(class="list")
+            each val in section.hosts
+              li
+                img(class="routeIcon" src=val.iconUrl)
+                a(class="route" href=val.host) #{val.host}
