@@ -8,6 +8,8 @@ let request = require("request-promise-native");
 let url = require("url");
 var getFavicons = require("get-website-favicon");
 
+const cache = {};
+
 router.get("/", function (req, res, next) {
   let configuration = JSON.parse(process.env.ENDPOINTCONFIGURATION);
 
@@ -75,9 +77,14 @@ async function enrichHostsWithIcons(hosts) {
   return Promise.all(
     hosts.map(async (host) => {
       var enrichedHost = { host, iconUrl: null };
-      var data = await getFavicons(host);
-      if (data && data.icons.length > 0) {
-        enrichedHost.iconUrl = data.icons[0].src;
+      if (cache[host]) {
+        enrichedHost.iconUrl = cache[host];
+      } else {
+        var data = await getFavicons(host);
+        if (data && data.icons.length > 0) {
+          cache[host] = data.icons[0].src;
+          enrichedHost.iconUrl = data.icons[0].src;
+        }
       }
       return enrichedHost;
     })
