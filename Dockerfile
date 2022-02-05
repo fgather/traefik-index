@@ -7,8 +7,9 @@ COPY routes /server/routes
 COPY app.js /server
 COPY package.json /server
 
-RUN cd /server ; yarn
+WORKDIR /server
+RUN yarn
 
 EXPOSE 3000
 
-ENTRYPOINT cd /server; yarn start
+ENTRYPOINT yarn start
